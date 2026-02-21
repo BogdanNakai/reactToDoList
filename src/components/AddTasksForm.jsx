@@ -5,8 +5,12 @@ import Field from "./Field";
 const AddTasksForm = () => {
 	return (
 		<form className="todo__form">
-		<Field />
-		<ButtonAdd />
+			<Field
+				className='todo__field'
+				lable='New Task title'
+				id='new-task'
+			/>
+		<ButtonAdd type='submit'>Add</ButtonAdd>
 		</form>
 	)
 };
