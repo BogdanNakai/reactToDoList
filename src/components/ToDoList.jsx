@@ -2,11 +2,13 @@ import ToDoItem from "./ToDoItem";
 
 const ToDoList = (props) => {
 	const {
-		tasks = []
+		tasks = [],
+		onDelitTaskButtonClik,
+		onTaskCompliteChange
 	} = props;
 	const hasTasks = true;
 
-	if (!hasTasks) { 
+	if (!hasTasks) {
 		return (<div className="todo__empty-message"></div>)
 	}
 
@@ -19,6 +21,8 @@ const ToDoList = (props) => {
 					id={tasks.id}
 					title={tasks.title}
 					isDone={tasks.isDone}
+					onDelitTaskButtonClik={onDelitTaskButtonClik}
+					onTaskCompliteChange={onTaskCompliteChange}
 				/>
 			))}
 		</ul>

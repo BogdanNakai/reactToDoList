@@ -1,13 +1,24 @@
 import Field from "./Field";
 
-const SeartchTaskForm = () => {
+const SeartchTaskForm = (props) => {
+
+	const {
+		onSearchInput
+	} = props;
+
 	return (
-		<Field
-			className='todo__field'
-			lable='Seartch task'
-			id='seartch-task'
-			type='seartch'
-		/>
+		<form
+			className="todo__form"
+			onSubmit={(event) => { event.preventDefault() }}
+		>
+			<Field
+				className='todo__field'
+				lable='Seartch task'
+				id='seartch-task'
+				type='seartch'
+				onInput={(event) => onSearchInput(event.target.value)}
+			/>
+		</form>
 	)
 };
 
