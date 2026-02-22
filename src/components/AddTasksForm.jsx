@@ -5,6 +5,7 @@ import Field from "./Field";
 const AddTasksForm = (prop) => {
 	const {
 		addTask,
+		newTaskInputRef,
 		newTaskTitle,
 		setNewTaskTitle,
 	} = prop;
@@ -20,6 +21,7 @@ const AddTasksForm = (prop) => {
 				className='todo__field'
 				lable='New Task title'
 				id='new-task'
+				ref={newTaskInputRef}
 				value={newTaskTitle}
 				onInput={(event) => setNewTaskTitle(event.target.value)}
 			/>

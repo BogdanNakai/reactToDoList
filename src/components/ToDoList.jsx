@@ -6,6 +6,8 @@ const ToDoList = (props) => {
 		filterdTasks,
 		onDelitTaskButtonClik,
 		onTaskCompliteChange,
+		firstInComplitTaskRef,
+		firstInComplitTaskId,
 	} = props;
 
 	const hasTasks = tasks.length > 0
@@ -28,6 +30,7 @@ const ToDoList = (props) => {
 					id={tasks.id}
 					title={tasks.title}
 					isDone={tasks.isDone}
+					ref={tasks.id === firstInComplitTaskId ? firstInComplitTaskRef : null}
 					onDelitTaskButtonClik={onDelitTaskButtonClik}
 					onTaskCompliteChange={onTaskCompliteChange}
 				/>
