@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import AddTasksForm from "./AddTasksForm"
 import SeartchTaskForm from "./SearchTaskForm"
 import TodoInfo from "./ToDoInfo"
@@ -6,20 +6,29 @@ import ToDoList from "./ToDoList"
 
 const ToDo = () => {
 
-	const [tasks, setTasks] = useState([
-		{ id: 'tasks-1', title: 'task-1', isDone: false },
-		{ id: 'tasks-2', title: 'task-2', isDone: true },
-	])
+	const [tasks, setTasks] = useState(() => {
+		const sevedTasks = localStorage.getItem('tasks');
 
-	const [newTaskTitle, setNewTaskTitle] = useState('')
+		if (sevedTasks) {
+			return JSON.parse(sevedTasks)
+		}
+
+		return [
+			{ id: 'tasks-1', title: 'task-1', isDone: false },
+			{ id: 'tasks-2', title: 'task-2', isDone: true },
+		]
+	})
+
+	const [newTaskTitle, setNewTaskTitle] = useState('');
+	const [searchQuery, setSearchQuery] = useState('');
 
 	const deleteAllTasks = () => {
 		const isConfirned = confirm('Are you shure you want to dalete all tasks?')
 
-		if (isConfirned) { 
+		if (isConfirned) {
 			setTasks([])
 		}
-		
+
 	};
 
 	const deleteTask = (tasksId) => {
@@ -30,9 +39,9 @@ const ToDo = () => {
 
 	const toggleTaskComplate = (taskId, isDone) => {
 		setTasks(
-			tasks.map((task) => { 
-				if (task.id === taskId) { 
-					return {...task, isDone}
+			tasks.map((task) => {
+				if (task.id === taskId) {
+					return { ...task, isDone }
 				}
 				return task
 			})
@@ -44,7 +53,7 @@ const ToDo = () => {
 	};
 
 	const addTask = () => {
-		if (newTaskTitle.trim().length > 0) { 
+		if (newTaskTitle.trim().length > 0) {
 			const newTask = {
 				id: crypto?.randomUUID() ?? Date.now().toString(),
 				title: newTaskTitle,
@@ -52,9 +61,18 @@ const ToDo = () => {
 			}
 			setTasks([...tasks, newTask])
 			setNewTaskTitle('')
+			setSearchQuery('')
 		}
 	}
 
+	useEffect(() => {
+		localStorage.setItem('tasks', JSON.stringify(tasks))
+	}, [tasks])
+
+	const clearSeartchQuery = searchQuery.trim().toLowerCase()
+	const filteredTasks = clearSeartchQuery.length > 0
+		? tasks.filter(({ title }) => title.toLowerCase().includes(clearSeartchQuery))
+		: null
 
 	return (
 		<div className="todo">
@@ -65,7 +83,11 @@ const ToDo = () => {
 				newTaskTitle={newTaskTitle}
 				setNewTaskTitle={setNewTaskTitle}
 			/>
-			<SeartchTaskForm onSearchInput={filterTasks} />
+			<SeartchTaskForm
+				searchQuery={searchQuery}
+				setSearchQuery={setSearchQuery}
+				onSearchInput={filterTasks}
+			/>
 			<TodoInfo
 				total={tasks.length}
 				done={tasks.filter(({ isDone }) => isDone).length}
@@ -73,6 +95,7 @@ const ToDo = () => {
 			/>
 			<ToDoList
 				tasks={tasks}
+				filterdTasks={filteredTasks}
 				onDelitTaskButtonClik={deleteTask}
 				onTaskCompliteChange={toggleTaskComplate}
 			/>
