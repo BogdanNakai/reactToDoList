@@ -1,4 +1,4 @@
-const ButtonAdd = (props) => { 
+const Button = (props) => {
 	const {
 		className = 'button',
 		type = 'button',
@@ -14,4 +14,4 @@ const ButtonAdd = (props) => {
 	)
 };
 
-export default ButtonAdd
+export default Button

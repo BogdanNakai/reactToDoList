@@ -1,27 +1,28 @@
-import Field from "./Field";
+import Field from './Field'
+import { useContext } from 'react'
+import { TasksContext } from '../context/TasksContext'
 
-const SeartchTaskForm = (props) => {
+const SearchTaskForm = () => {
+  const {
+    searchQuery,
+    setSearchQuery,
+  } = useContext(TasksContext)
 
-	const {
-		searchQuery,
-		setSearchQuery
-	} = props;
+  return (
+    <form
+      className="todo__form"
+      onSubmit={(event) => event.preventDefault()}
+    >
+      <Field
+        className="todo__field"
+        label="Search task"
+        id="search-task"
+        type="search"
+        value={searchQuery}
+        onInput={(event) => setSearchQuery(event.target.value)}
+      />
+    </form>
+  )
+}
 
-	return (
-		<form
-			className="todo__form"
-			onSubmit={(event) => { event.preventDefault() }}
-		>
-			<Field
-				className='todo__field'
-				lable='Seartch task'
-				id='seartch-task'
-				type='seartch'
-				value={searchQuery}
-				onInput={(event) => setSearchQuery(event.target.value)}
-			/>
-		</form>
-	)
-};
-
-export default SeartchTaskForm
+export default SearchTaskForm
